@@ -69,14 +69,14 @@ public class Ball : MonoBehaviour
         if (currentVelocity.x == 0)
         {
             var x = Mathf.Clamp(Mathf.Abs(currentVelocity.x), 2f, 20f);
-            currentVelocity.x = currentVelocity.x > 0 ? x : x * -1;
+            currentVelocity.x = x;
 
             Debug.Log("tweaked x: " + currentVelocity.x);
         }
         else if (currentVelocity.y == 0)
         {
             var y = Mathf.Clamp(Mathf.Abs(currentVelocity.y), 2f, 20f);
-            currentVelocity.y = currentVelocity.y > 0 ? y : y * -1;
+            currentVelocity.y = y;
             Debug.Log("tweaked y: " + currentVelocity.y);
         }
         ballRigidBody.velocity = currentVelocity;
