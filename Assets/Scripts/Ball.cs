@@ -66,17 +66,17 @@ public class Ball : MonoBehaviour
     {
         Vector2 velocityTweak = new Vector2(Random.Range(0, factor), Random.Range(0, factor));
         var currentVelocity = ballRigidBody.velocity;
-        if (currentVelocity.x == 0)
+        if (Mathf.Round(currentVelocity.x) == 0)
         {
             var x = Mathf.Clamp(Mathf.Abs(currentVelocity.x), 2f, 20f);
-            currentVelocity.x = x;
+            currentVelocity.x = velocityTweak.x;
 
             Debug.Log("tweaked x: " + currentVelocity.x);
         }
-        else if (currentVelocity.y == 0)
+        else if (Mathf.Round(currentVelocity.y) == 0)
         {
             var y = Mathf.Clamp(Mathf.Abs(currentVelocity.y), 2f, 20f);
-            currentVelocity.y = y;
+            currentVelocity.y = velocityTweak.y;
             Debug.Log("tweaked y: " + currentVelocity.y);
         }
         ballRigidBody.velocity = currentVelocity;
