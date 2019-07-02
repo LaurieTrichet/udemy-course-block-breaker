@@ -10,6 +10,8 @@ public class Paddle : MonoBehaviour
     private GameSession gameSession;
     private Ball ball;
 
+    public bool shouldMove = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class Paddle : MonoBehaviour
 
     private float GetXPos()
     {
-        if (gameSession.IsAutoPlayEnabled())
+        if (gameSession.IsAutoPlayEnabled() && this.shouldMove)
         {
             return ball.transform.position.x;
         }

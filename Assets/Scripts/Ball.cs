@@ -28,13 +28,11 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (!hasStarted)
         {
             CheckPlayerLaunchBall();
             LockBallToPaddle();
         }
-
     }
 
     private void CheckPlayerLaunchBall()
@@ -42,6 +40,7 @@ public class Ball : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             hasStarted = true;
+            paddle.shouldMove = true;
             Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
             rigidBody.velocity = new Vector2(xPush, yPush);
         }
@@ -53,31 +52,33 @@ public class Ball : MonoBehaviour
         transform.position = paddlePosition + paddleToBallVector;
     }
 
-
-    GameObject collisionObject = null;
-    int blockedCounter = 0;
-    int collisionCounter = 0;
-    ContactPoint2D cachedPosition = new ContactPoint2D();
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        Vector2 velocityTweak = new Vector2(Random.Range(0, factor), Random.Range(0, factor));
         if (hasStarted)
         {
             var sound = sounds[Random.Range(0, sounds.Length - 1)];
             audioSource.PlayOneShot(sound);
-            Debug.Log(ballRigidBody.velocity);
-
-
-            var currentVelocity = ballRigidBody.velocity;
-            var x = Mathf.Clamp(Mathf.Abs(currentVelocity.x), 2f, 20f);
-            var y = Mathf.Clamp(Mathf.Abs(currentVelocity.y), 2f, 20f);
-            currentVelocity.x = currentVelocity.x > 0 ? x : x * -1;
-            currentVelocity.y = currentVelocity.y > 0 ? y : y * -1;
-            ballRigidBody.velocity = currentVelocity;
-
-            Debug.Log(ballRigidBody.velocity);
-            Debug.Log("---");
+            PreventBallBlocking();
         }
+    }
+
+    private void PreventBallBlocking()
+    {
+        Vector2 velocityTweak = new Vector2(Random.Range(0, factor), Random.Range(0, factor));
+        var currentVelocity = ballRigidBody.velocity;
+        if (currentVelocity.x == 0)
+        {
+            var x = Mathf.Clamp(Mathf.Abs(currentVelocity.x), 2f, 20f);
+            currentVelocity.x = currentVelocity.x > 0 ? x : x * -1;
+
+            Debug.Log("tweaked x: " + currentVelocity.x);
+        }
+        else if (currentVelocity.y == 0)
+        {
+            var y = Mathf.Clamp(Mathf.Abs(currentVelocity.y), 2f, 20f);
+            currentVelocity.y = currentVelocity.y > 0 ? y : y * -1;
+            Debug.Log("tweaked y: " + currentVelocity.y);
+        }
+        ballRigidBody.velocity = currentVelocity;
     }
 }

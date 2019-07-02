@@ -12,7 +12,7 @@ public class GameSession : MonoBehaviour
 
     [SerializeField] TMPro.TMP_Text scoreText;
 
-    [SerializeField] bool isAutoPlayEnabled;
+    [SerializeField] bool isAutoPlayEnabled = false;
 
     private void Awake()
     {
@@ -53,6 +53,6 @@ public class GameSession : MonoBehaviour
 
     public bool IsAutoPlayEnabled()
     {
-        return this.isActiveAndEnabled;
+        return this.isAutoPlayEnabled;
     }
 }
